@@ -38,6 +38,8 @@ void sending_config(void)
 	keys[R1_KEY].id = 0x08;
 	keys[R2_KEY].id = 0x02;
 }
+
+
 int handle_init(){
 //	GPIO_Configuration(GPIO_Pin_14,GPIO_Mode_IN_FLOATING, GPIO_Speed_50MHz,GPIOB);
 //	GPIO_Configuration(GPIO_Pin_12,GPIO_Mode_Out_PP, GPIO_Speed_50MHz,GPIOB);
@@ -273,3 +275,5 @@ void send_control_data(void)
 		old_spd_r = r_spd;
 	}
 }
+
+

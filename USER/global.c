@@ -1,13 +1,6 @@
 #include "global.h"
 #include "usart.h"
 
-
-extern int wait_cnt;
-extern s8 ptrS,ptrB;
-extern bottons* b[];
-extern sticks* s[];
-
-
 void pitch_move(float v){
 	if (v - 3000.f > 0.0000001)
 		v = 3000;
@@ -25,24 +18,6 @@ void roll_move(float v){
 }
 
 
-void bottons_check(){
-	if (ptrB>-1){
-		if (ptrB>=4&ptrB<=7)
-			b[ptrB]->cnt=2;
-		else b[ptrB]->cnt=55;
-		b[ptrB]->ispressed=true;
-		ptrB=-1;
-	}
-}
-
-void sticks_check(int Hx,int Hy){
-	if (ptrS>0){
-		if (Hx>=0&&Hx<256&&Hy>=0&&Hy<256){
-			s[ptrS-1]->x=Hx-127;
-			s[ptrS-1]->y=128-Hy;}
-		ptrS=0;
-	}
-}
 
 //void TIM2_IRQHandler(void){
 //	int i;

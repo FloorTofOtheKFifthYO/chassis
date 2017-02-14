@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\FWLIB\inc;..\HARDWARE\controller;..\HARDWARE\vega;..\HARDWARE\encoder;..\HARDWARE\step;..\SYSTEM\CAN;..\SYSTEM\EXTI;..\SYSTEM\flash;..\SYSTEM\SPI;..\SYSTEM\TIM</IncludePath>
+              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\FWLIB\inc;..\HARDWARE\controller;..\HARDWARE\vega;..\HARDWARE\encoder;..\HARDWARE\step;..\SYSTEM\CAN;..\SYSTEM\EXTI;..\SYSTEM\flash;..\SYSTEM\SPI;..\SYSTEM\TIM;..\HARDWARE\motor_usart;..\MODULE\flywheel;..\MODULE\hit;..\MODULE\chassis;..\HARDWARE\motor_brushless;..\HARDWARE\controller_usart;..\HARDWARE\putter;..\HARDWARE\motorCtrl</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -456,6 +456,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MODULE</GroupName>
+          <Files>
+            <File>
+              <FileName>flywheel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MODULE\flywheel\flywheel.c</FilePath>
+            </File>
+            <File>
+              <FileName>hit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MODULE\hit\hit.c</FilePath>
+            </File>
+            <File>
+              <FileName>chassis.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MODULE\chassis\chassis.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
@@ -464,19 +484,49 @@
               <FilePath>..\HARDWARE\controller\controller.c</FilePath>
             </File>
             <File>
-              <FileName>vega.c</FileName>
+              <FileName>step.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\vega\vega.c</FilePath>
+              <FilePath>..\HARDWARE\step\step.c</FilePath>
             </File>
+            <File>
+              <FileName>motor_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\motor_usart\motor_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor_brushless.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\motor_brushless\motor_brushless.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\controller_usart\controller_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>putter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\putter\putter.c</FilePath>
+            </File>
+            <File>
+              <FileName>motorCtrl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\motorCtrl\motorCtrl.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SENSOR</GroupName>
+          <Files>
             <File>
               <FileName>encoder.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\encoder\encoder.c</FilePath>
             </File>
             <File>
-              <FileName>step.c</FileName>
+              <FileName>vega.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\step\step.c</FilePath>
+              <FilePath>..\HARDWARE\vega\vega.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -522,16 +572,6 @@
               <FileName>TIM.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\TIM\TIM.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>CORE</GroupName>
-          <Files>
-            <File>
-              <FileName>startup_stm32f40_41xxx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\CORE\startup_stm32f40_41xxx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -587,6 +627,16 @@
               <FileName>stm32f4xx_can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_can.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CORE</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_stm32f40_41xxx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\CORE\startup_stm32f40_41xxx.s</FilePath>
             </File>
           </Files>
         </Group>

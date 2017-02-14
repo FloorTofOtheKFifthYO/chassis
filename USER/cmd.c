@@ -19,7 +19,7 @@ static cmd_struct cmd_tbl[] = {
     CMD_ADD("switch"," 查看触碰开关状态 ",cmd_switch_func),
     CMD_ADD("hello"," ",cmd_hello_func),
 //    CMD_ADD("speed"," 设置底盘运动速度 ",cmd_speed_func),
-    CMD_ADD("launch"," 设置发射参数 ",cmd_launch_func),
+//    CMD_ADD("launch"," 设置发射参数 ",cmd_launch_func),
     CMD_ADD("pos"," 设置全场定位的坐标 ",cmd_pos_func),
     CMD_ADD("action"," 使用命令执行各种动作 ",cmd_action_func),
     CMD_ADD("stop"," ",cmd_stop_func),

@@ -15,8 +15,7 @@ void handler_test(void);
 void check(void);
 extern uint8_t data[10];
 
-
-extern void USART_SendString(USART_TypeDef* USARTx, char *fmt, ...);
+void USART_SendString(USART_TypeDef* USARTx, char *fmt, ...);
 
 #define HAND_ZERO 0x3f
 #define CMD_TIMES 10
