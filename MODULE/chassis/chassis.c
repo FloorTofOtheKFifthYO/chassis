@@ -137,7 +137,7 @@ void chassis_auto()
 		
 		if(factor * factor * (powf(Serror_X,2)+powf(Serror_Y,2)) < (powf(error_X,2)+powf(error_Y,2))) {//¼ÓËÙ
 			if(Sroute > chassis.Start_distance) // 0<start_distance<1
-				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * factor;
+				ChassisSpeed = Sroute*chassis.Move_speed * factor;
 			else 
 				ChassisSpeed = chassis.Start_distance * chassis.Move_speed * factor;
 		}else {
@@ -198,7 +198,7 @@ void chassis_auto()
 		Chassis_motor2 = (ChassisSpeed * cos((CH_angle_M2 - chassis.angle) - direction_angle) - TURN_speed);
 		
 		USART_SendString(bluetooth,"%d,%d,%d,%f",Chassis_motor0,Chassis_motor1,Chassis_motor2,direction_angle);
-		USART_SendString(bluetooth,",%d,%d,%d\n",ReturnData(MOTOR0_ID)->Speed,ReturnData(MOTOR1_ID)->Speed,ReturnData(MOTOR2_ID)->Speed);
+		USART_SendString(bluetooth,",%d,%d,%d,%f\n",ReturnData(MOTOR0_ID)->Speed,ReturnData(MOTOR1_ID)->Speed,ReturnData(MOTOR2_ID)->Speed,Sroute);
 		
 		//USART_SendString(bluetooth,"dot x:%f,y:%f\n",dir_dot_X,dir_dot_Y);
 		
