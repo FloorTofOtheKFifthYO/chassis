@@ -142,7 +142,7 @@ void chassis_auto()
 				ChassisSpeed = chassis.Start_distance * chassis.Move_speed * factor;
 		}else {
 			//if((powf(error_X,2)+powf(error_Y,2)) > 1)
-			//	ChassisSpeed = sqrt(powf(error_X,2)+powf(error_Y,2))*chassis.Move_speed;
+			//	ChassisSpeed = Eroute*chassis.Move_speed;
 			//else
 			if(Eroute > 0.05)
 				ChassisSpeed = sqrt(Eroute) * chassis.Move_speed;
