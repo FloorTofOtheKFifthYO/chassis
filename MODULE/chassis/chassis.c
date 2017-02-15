@@ -95,12 +95,13 @@ void chassis_auto()
 {
 	float errorAngle;
 	float error_X, error_Y, Serror_X, Serror_Y, direrror_X,direrror_Y;
+	double Sroute,Eroute;
 	static float Oerror_X,Oerror_Y;
 	static float dir_dot_X, dir_dot_Y; 
 	static float distance;
-	float factor = 5;
+	float factor = 3;
 	
-	static int i = 1;
+	float i;
 	
 	if(chassis.car_state == car_ready){
 		chassis.START.X = chassis.g_vega_pos_x* 0.0001 * 0.81;
@@ -108,7 +109,6 @@ void chassis_auto()
 		chassis.START.ANG = (chassis.g_vega_angle/180.f)*PI;
 		ms = 0;
 		chassis.car_state = car_running;
-		i = 1;
 		
 		Oerror_X = chassis.END.X - chassis.START.X;
 		Oerror_Y = chassis.END.Y - chassis.START.Y;
@@ -124,26 +124,28 @@ void chassis_auto()
 		Serror_X = chassis.START.X - chassis.pos_x;
 		Serror_Y = chassis.START.Y - chassis.pos_y;
 		
+		Sroute = sqrt(powf(Serror_X,2)+powf(Serror_Y,2));
+		Eroute = sqrt(powf(error_X,2)+powf(error_Y,2));
+		
+		i = Sroute+0.5;
+		
 		dir_dot_X = Oerror_X*i + chassis.START.X;
 		dir_dot_Y = Oerror_Y*i + chassis.START.Y;
 		
 		direrror_X = dir_dot_X - chassis.pos_x;
 		direrror_Y = dir_dot_Y - chassis.pos_y;
 		
-		if(powf(direrror_Y,2)+powf(direrror_X,2) <= 0.25 || powf(Serror_X,2)+powf(Serror_Y,2) >= i)
-			i++;
-		
 		if(factor * factor * (powf(Serror_X,2)+powf(Serror_Y,2)) < (powf(error_X,2)+powf(error_Y,2))) {//¼ÓËÙ
-			if((powf(Serror_X,2)+powf(Serror_Y,2)) > chassis.Start_distance * chassis.Start_distance) // 0<start_distance<1
-				ChassisSpeed = sqrtf(powf(Serror_X,2)+powf(Serror_Y,2))*chassis.Move_speed * factor;
+			if(Sroute > chassis.Start_distance) // 0<start_distance<1
+				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * factor;
 			else 
 				ChassisSpeed = chassis.Start_distance * chassis.Move_speed * factor;
 		}else {
 			//if((powf(error_X,2)+powf(error_Y,2)) > 1)
 			//	ChassisSpeed = sqrt(powf(error_X,2)+powf(error_Y,2))*chassis.Move_speed;
 			//else
-			if((powf(error_X,2)+powf(error_Y,2)) > 0.0025)
-				ChassisSpeed = sqrt(sqrt(powf(error_X,2)+powf(error_Y,2))) * chassis.Move_speed;
+			if(Eroute > 0.05)
+				ChassisSpeed = sqrt(Eroute) * chassis.Move_speed;
 			else
 				ChassisSpeed = 89.44 * (powf(error_X,2)+powf(error_Y,2)) * chassis.Move_speed;
 		}
@@ -183,9 +185,8 @@ void chassis_auto()
 			i = 1;
 			ChassisSpeed = 0;
 		}else{
-			if(distance<=1 || powf(error_X,2)+powf(error_Y,2) <= 1 || powf(Serror_X,2)+powf(Serror_Y,2) >= distance)
+			if(distance<=1 || powf(error_X,2)+powf(error_Y,2) <= 0.5 || Sroute >= distance)
 			{	
-				i = 1;
 				direction_angle = atan2(error_Y,error_X);
 			}
 			else
@@ -196,8 +197,10 @@ void chassis_auto()
 		Chassis_motor1 = (ChassisSpeed * cos((CH_angle_M1 - chassis.angle) - direction_angle) - TURN_speed);
 		Chassis_motor2 = (ChassisSpeed * cos((CH_angle_M2 - chassis.angle) - direction_angle) - TURN_speed);
 		
-		USART_SendString(bluetooth,"motorspeed:%d,%d,%d\n",Chassis_motor0,Chassis_motor1,Chassis_motor2);
-		USART_SendString(bluetooth,"truespeed:%d,%d,%d\n",ReturnData(MOTOR0_ID)->Speed,ReturnData(MOTOR1_ID)->Speed,ReturnData(MOTOR2_ID)->Speed);
+		USART_SendString(bluetooth,"%d,%d,%d,%f",Chassis_motor0,Chassis_motor1,Chassis_motor2,direction_angle);
+		USART_SendString(bluetooth,",%d,%d,%d\n",ReturnData(MOTOR0_ID)->Speed,ReturnData(MOTOR1_ID)->Speed,ReturnData(MOTOR2_ID)->Speed);
+		
+		//USART_SendString(bluetooth,"dot x:%f,y:%f\n",dir_dot_X,dir_dot_Y);
 		
 		if(fabs(Chassis_motor2) < 2 && fabs(Chassis_motor1) < 2 && fabs(Chassis_motor0) < 2)
 		{
@@ -216,7 +219,7 @@ void chassis_auto()
 	else if(chassis.car_state == car_stop)
 	{
 		if(ms>200)
-			USART_SendString(CMD_USARTx,"msg: %fs\n",ms*5.0/1000);
+			USART_SendString(CMD_USARTx,"msg: %fs\n",ms*5.0/10000);
 		ms = 0;
 		/*pos_x = temp_x* 0.0001 * 0.81;
 		pos_y = temp_y* 0.0001 * 0.81;
