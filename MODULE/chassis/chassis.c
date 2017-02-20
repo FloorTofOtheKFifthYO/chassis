@@ -136,14 +136,11 @@ void chassis_auto()
 		direrror_Y = dir_dot_Y - chassis.pos_y;
 		
 		if(factor * factor * (powf(Serror_X,2)+powf(Serror_Y,2)) < (powf(error_X,2)+powf(error_Y,2))) {//¼ÓËÙ
-			if(Sroute > chassis.Start_distance) // 0<start_distance<1
-				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * factor;
-			else 
+			if(Sroute <= chassis.Start_distance) // 0<start_distance<1
 				ChassisSpeed = chassis.Start_distance * chassis.Move_speed * factor;
+			else 
+				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * factor;
 		}else {
-			//if((powf(error_X,2)+powf(error_Y,2)) > 1)
-			//	ChassisSpeed = Eroute*chassis.Move_speed;
-			//else
 			if(Eroute > 0.05)
 				ChassisSpeed = sqrt(Eroute) * chassis.Move_speed;
 			else
