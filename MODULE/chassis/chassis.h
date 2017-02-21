@@ -49,6 +49,7 @@ typedef struct
 	int Angle_speed;
 	int Move_speed;
 	float Start_distance;
+	float factor;
 } Chassis;
 
 extern Chassis chassis;

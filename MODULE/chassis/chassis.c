@@ -43,7 +43,7 @@ void chassis_init(void)
 	chassis.START.ANG = (chassis.g_vega_angle/180.f)*PI;
 	chassis.END = chassis.START;
 	chassis.car_state = car_stop;
-	
+	chassis.factor = 3;
 }
 
 //主循环轮询更新
@@ -99,7 +99,7 @@ void chassis_auto()
 	static float Oerror_X,Oerror_Y;
 	static float dir_dot_X, dir_dot_Y; 
 	static float distance;
-	float factor = 3;
+	
 	
 	float i;
 	
@@ -124,7 +124,7 @@ void chassis_auto()
 		Serror_X = chassis.START.X - chassis.pos_x;
 		Serror_Y = chassis.START.Y - chassis.pos_y;
 		
-		Sroute = sqrt(powf(Serror_X,2)+powf(Serror_Y,2));
+		Sroute = sqrt(powf(Serror_X,2)+powf(Serror_Y,2))+chassis.Start_distance;
 		Eroute = sqrt(powf(error_X,2)+powf(error_Y,2));
 		
 		i = Sroute+0.5;
@@ -135,11 +135,8 @@ void chassis_auto()
 		direrror_X = dir_dot_X - chassis.pos_x;
 		direrror_Y = dir_dot_Y - chassis.pos_y;
 		
-		if(factor * factor * (powf(Serror_X,2)+powf(Serror_Y,2)) < (powf(error_X,2)+powf(error_Y,2))) {//加速
-			if(Sroute <= chassis.Start_distance) // 0<start_distance<1
-				ChassisSpeed = chassis.Start_distance * chassis.Move_speed * factor;
-			else 
-				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * factor;
+		if(chassis.factor * chassis.factor * (powf(Serror_X,2)+powf(Serror_Y,2)) < (powf(error_X,2)+powf(error_Y,2))) {//加速
+				ChassisSpeed = sqrt(Sroute)*chassis.Move_speed * chassis.factor;
 		}else {
 			if(Eroute > 0.05)
 				ChassisSpeed = sqrt(Eroute) * chassis.Move_speed;
